@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 
 import {
@@ -129,10 +128,11 @@ function DigitalCard() {
             <div className="front-bio">
               <p>
                 With a background in Business Management and over five years
-                of experience in business, Catherine has built her entrepreneurial
-                journey around something she genuinely loves: beauty. Her eye
-                for style, creative spirit and passion for what she does have
-                inspired her to bring Hair Happens and Kate Collections to life.
+                of experience in business, Catherine has built her
+                entrepreneurial journey around something she genuinely loves:
+                beauty. Her eye for style, creative spirit and passion for what
+                she does have inspired her to bring Hair Happens and Kate
+                Collections to life.
               </p>
             </div>
 
@@ -202,7 +202,13 @@ function DigitalCard() {
                   className="back-business"
                   key={business.id}
                 >
-                  <div className="back-business-image-wrap">
+                  <div
+                    className={`back-business-image-wrap ${
+                      index === 0
+                        ? 'hair-happens-logo-bg'
+                        : 'kate-collections-logo-bg'
+                    }`}
+                  >
                     <img
                       src={businessLogos[index]}
                       alt={`${business.name} logo`}
