@@ -17,6 +17,14 @@ import { catherine, businesses } from '../data/businessData';
 
 import './DigitalCard.css';
 
+// Business logos used on the back of the card.
+// Keep this order aligned with the businesses array:
+// Hair Happens first, Kate Collections second.
+const businessLogos = [
+  '/images/hair-happens-logo.jpg',
+  '/images/kate-collections-logo.jpg',
+];
+
 function escapeVCard(value = '') {
   return String(value)
     .replace(/\\/g, '\\\\')
@@ -158,6 +166,7 @@ function DigitalCard() {
               aria-label="Explore the businesses on the back of the card"
             >
               <span>Explore the businesses</span>
+
               <span className="explore-arrow">
                 <ArrowRight size={18} />
               </span>
@@ -188,15 +197,15 @@ function DigitalCard() {
             </header>
 
             <div className="back-businesses">
-              {businesses.map((business) => (
+              {businesses.map((business, index) => (
                 <article
                   className="back-business"
                   key={business.id}
                 >
                   <div className="back-business-image-wrap">
                     <img
-                      src={business.image}
-                      alt={business.name}
+                      src={businessLogos[index]}
+                      alt={`${business.name} logo`}
                       className="back-business-image"
                     />
                   </div>
@@ -296,6 +305,7 @@ function DigitalCard() {
           <span className="feedback-icon">
             <Check size={15} />
           </span>
+
           <span>{feedback}</span>
         </div>
       )}
