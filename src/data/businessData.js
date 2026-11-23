@@ -4,7 +4,7 @@ const hairHappensFacebook =
 
 export const catherine = {
   name: 'Catherine Tumahole',
-  role: 'Founder & Business Owner',
+  role: 'Founder & Entrepreneur',
   location: 'Lesotho',
   portrait: '/images/catherine.jpeg',
 

@@ -62,7 +62,7 @@ function DigitalCard() {
 
     setTimeout(() => URL.revokeObjectURL(url), 1000);
 
-    setFeedback('Contact saved to your downloads');
+    setFeedback('Contact saved successfully');
   };
 
   const handleShare = async () => {
@@ -75,7 +75,7 @@ function DigitalCard() {
     try {
       if (navigator.share) {
         await navigator.share(shareData);
-        setFeedback('Card shared');
+        setFeedback('Card shared successfully');
       } else if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(shareData.url);
         setFeedback('Card link copied');
@@ -99,6 +99,7 @@ function DigitalCard() {
 
           {/* FRONT */}
           <section className="card-face card-front">
+
             <header className="front-header">
               <div className="front-identity">
                 <img
@@ -107,16 +108,25 @@ function DigitalCard() {
                   className="front-portrait"
                 />
 
-                <div>
+                <div className="front-name">
                   <h1>{catherine.name}</h1>
                   <p>{catherine.role}</p>
+                  <span className="front-location">
+                    {catherine.location}
+                  </span>
                 </div>
               </div>
-
-              <span className="front-location">
-                {catherine.location}
-              </span>
             </header>
+
+            <div className="front-bio">
+              <p>
+                With a background in Business Management and over five years
+                of experience in business, Catherine has built her entrepreneurial
+                journey around something she genuinely loves: beauty. Her eye
+                for style, creative spirit and passion for what she does have
+                inspired her to bring Hair Happens and Kate Collections to life.
+              </p>
+            </div>
 
             <div className="front-businesses">
               {businesses.map((business, index) => (
@@ -158,10 +168,12 @@ function DigitalCard() {
               <span className="bottom-dot" />
               <span>Kate Collections</span>
             </div>
+
           </section>
 
           {/* BACK */}
           <section className="card-face card-back">
+
             <header className="back-header">
               <button
                 type="button"
@@ -272,16 +284,22 @@ function DigitalCard() {
               <ArrowLeft size={14} />
               Return to front
             </button>
+
           </section>
+
         </div>
       </div>
 
+      {/* FLOATING FEEDBACK NOTIFICATION */}
       {feedback && (
-        <p className="card-feedback" role="status">
-          <Check size={14} />
-          {feedback}
-        </p>
+        <div className="card-feedback" role="status" aria-live="polite">
+          <span className="feedback-icon">
+            <Check size={15} />
+          </span>
+          <span>{feedback}</span>
+        </div>
       )}
+
     </main>
   );
 }
