@@ -74,14 +74,16 @@
   background: #A76547;
 }
 
+
 /* =========================================
-   CARD FLIP
+   CARD FLIP: MAGAZINE-STYLE PAGE TURN
 ========================================= */
 
 .card-stage {
   width: 100%;
   max-width: 530px;
-  perspective: 1500px;
+  perspective: 1800px;
+  perspective-origin: 50% 50%;
   filter: drop-shadow(0 30px 45px rgba(0, 0, 0, 0.24));
 }
 
@@ -89,8 +91,18 @@
   width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
+
+  position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transform-origin: center center;
+
+  /*
+    A slower, more deliberate turn.
+    The easing gives the page a gentle acceleration
+    and a soft landing rather than a mechanical flip.
+  */
+  transition:
+    transform 1.15s cubic-bezier(0.65, 0.05, 0.36, 1);
 }
 
 .card-stage.is-flipped .card-inner {
@@ -102,6 +114,8 @@
   min-width: 0;
   overflow: hidden;
   padding: 25px;
+
+  position: relative;
 
   background: linear-gradient(
     145deg,
@@ -122,15 +136,67 @@
   -webkit-backface-visibility: hidden;
 }
 
+/*
+  The page sheen creates the impression of light
+  travelling across the paper as it turns.
+*/
+.card-face::after {
+  content: '';
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+
+  opacity: 0;
+
+  background: linear-gradient(
+    105deg,
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(255, 255, 255, 0.10) 18%,
+    transparent 38%,
+    transparent 62%,
+    rgba(56, 45, 39, 0.10) 82%,
+    rgba(56, 45, 39, 0.20) 100%
+  );
+
+  transition: opacity 0.55s ease;
+}
+
+/* Front page */
+
 .card-front {
   position: relative;
   z-index: 2;
   padding: 29px;
 }
 
+/* Back page */
+
 .card-back {
   transform: rotateY(180deg);
 }
+
+/*
+  The moving shadow gives the page turn a little
+  physical depth without changing the card layout.
+*/
+.card-stage.is-flipped .card-front::after {
+  opacity: 0.8;
+}
+
+.card-stage:not(.is-flipped) .card-back::after {
+  opacity: 0.8;
+}
+
+.card-stage.is-flipped .card-back::after {
+  opacity: 0;
+}
+
+.card-stage:not(.is-flipped) .card-front::after {
+  opacity: 0;
+}
+
 
 /* =========================================
    FRONT: PROFILE HEADER
@@ -197,6 +263,7 @@
   text-transform: uppercase;
 }
 
+
 /* =========================================
    FRONT: BIO
 ========================================= */
@@ -212,6 +279,7 @@
   font-size: 11px;
   line-height: 1.75;
 }
+
 
 /* =========================================
    FRONT: BUSINESS IMAGES
@@ -254,7 +322,9 @@
   display: block;
   object-fit: cover;
   filter: saturate(0.96);
-  transition: transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  transition:
+    transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .front-business:hover .front-business-image {
@@ -299,6 +369,7 @@
   font-weight: 500;
   line-height: 1.1;
 }
+
 
 /* =========================================
    FRONT: EXPLORE BUTTON
@@ -386,6 +457,7 @@
   background: var(--bronze);
 }
 
+
 /* =========================================
    BACK: HEADER
 ========================================= */
@@ -421,6 +493,7 @@
   line-height: 1.15;
 }
 
+
 /* =========================================
    BACK: BUSINESS PANELS
 ========================================= */
@@ -439,7 +512,7 @@
   border-radius: 12px;
 }
 
-/* Logo container: shared layout */
+/* Logo container */
 
 .back-business-image-wrap {
   height: 112px;
@@ -451,7 +524,7 @@
   border-bottom: 1px solid rgba(167, 123, 79, 0.18);
 }
 
-/* Hair Happens: deep espresso with a bronze glow */
+/* Hair Happens: deep espresso with bronze glow */
 
 .hair-happens-logo-bg {
   background:
@@ -467,7 +540,7 @@
     );
 }
 
-/* Kate Collections: dusty rose with an ivory glow */
+/* Kate Collections: dusty rose with ivory glow */
 
 .kate-collections-logo-bg {
   background:
@@ -491,6 +564,7 @@
   display: block;
   object-fit: contain;
   object-position: center;
+
   transition: transform 0.3s ease;
 }
 
@@ -571,6 +645,7 @@
   color: var(--espresso);
 }
 
+
 /* =========================================
    BACK: CONTACT PANEL
 ========================================= */
@@ -635,6 +710,7 @@
   flex: 0 0 13px;
   color: var(--bronze);
 }
+
 
 /* =========================================
    BACK: ACTION BUTTONS
@@ -709,6 +785,7 @@
   cursor: pointer;
 }
 
+
 /* =========================================
    FLOATING FEEDBACK NOTIFICATION
 ========================================= */
@@ -772,6 +849,7 @@
   }
 }
 
+
 /* =========================================
    RESPONSIVE: TABLETS & MOBILE
 ========================================= */
@@ -784,6 +862,7 @@
 
   .card-stage {
     filter: drop-shadow(0 22px 32px rgba(0, 0, 0, 0.26));
+    perspective: 1500px;
   }
 
   .card-face {
@@ -871,7 +950,12 @@
   }
 }
 
+
 @media (max-width: 370px) {
+  .card-face {
+    padding: 15px;
+  }
+
   .card-front {
     padding: 17px;
   }
@@ -930,12 +1014,14 @@
   }
 }
 
+
 /* =========================================
    ACCESSIBILITY: REDUCED MOTION
 ========================================= */
 
 @media (prefers-reduced-motion: reduce) {
   .card-inner,
+  .card-face::after,
   .front-business-image,
   .explore-button,
   .back-actions button,
@@ -943,15 +1029,9 @@
     transition: none;
   }
 
-  .explore-arrow {
-    animation: none;
-  }
-
+  .explore-arrow,
+  .card-feedback,
   .front-business {
-    animation: none;
-  }
-
-  .card-feedback {
     animation: none;
   }
 }

@@ -16,9 +16,7 @@ import { catherine, businesses } from '../data/businessData';
 
 import './DigitalCard.css';
 
-// Business logos used on the back of the card.
-// Keep this order aligned with the businesses array:
-// Hair Happens first, Kate Collections second.
+// Keep this order aligned with the businesses array.
 const businessLogos = [
   '/images/hair-happens-logo.jpg',
   '/images/kate-collections-logo.jpg',
@@ -67,7 +65,7 @@ function DigitalCard() {
     link.click();
     link.remove();
 
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 
     setFeedback('Contact saved successfully');
   };
@@ -106,7 +104,6 @@ function DigitalCard() {
 
           {/* FRONT */}
           <section className="card-face card-front">
-
             <header className="front-header">
               <div className="front-identity">
                 <img
@@ -118,6 +115,7 @@ function DigitalCard() {
                 <div className="front-name">
                   <h1>{catherine.name}</h1>
                   <p>{catherine.role}</p>
+
                   <span className="front-location">
                     {catherine.location}
                   </span>
@@ -177,12 +175,10 @@ function DigitalCard() {
               <span className="bottom-dot" />
               <span>Kate Collections</span>
             </div>
-
           </section>
 
           {/* BACK */}
           <section className="card-face card-back">
-
             <header className="back-header">
               <button
                 type="button"
@@ -299,9 +295,7 @@ function DigitalCard() {
               <ArrowLeft size={14} />
               Return to front
             </button>
-
           </section>
-
         </div>
       </div>
 
@@ -315,7 +309,6 @@ function DigitalCard() {
           <span>{feedback}</span>
         </div>
       )}
-
     </main>
   );
 }
